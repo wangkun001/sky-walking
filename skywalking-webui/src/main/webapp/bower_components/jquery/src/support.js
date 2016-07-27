@@ -2,7 +2,7 @@ define( [
 	"./core",
 	"./var/support",
 	"./var/document",
-	"./core/init", // Needed for hasOwn support test
+	"./core/init", // Needed for hasOwn support sample
 	// This is listed as a dependency for build order, but it's still optional in builds
 	"./core/ready"
 ], function( jQuery, support, document ) {
@@ -16,7 +16,7 @@ for ( i in jQuery( support ) ) {
 support.ownFirst = i === "0";
 
 // Note: most support tests are defined in their respective modules.
-// false until the test is run
+// false until the sample is run
 support.inlineBlockNeedsLayout = false;
 
 // Execute ASAP in case we need to set body.style.zoom

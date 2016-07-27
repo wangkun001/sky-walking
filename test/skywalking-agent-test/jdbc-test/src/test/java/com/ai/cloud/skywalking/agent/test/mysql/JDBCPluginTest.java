@@ -16,7 +16,7 @@ public class JDBCPluginTest {
     @Test
     public void testMysqlJDBC() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
-        String url = "jdbc:mysql://127.0.0.1:3306/test?user=root&password=root";
+        String url = "jdbc:mysql://127.0.0.1:3306/sample?user=root&password=root";
         Connection con = DriverManager.getConnection(url);
         con.setAutoCommit(false);
 
@@ -26,9 +26,9 @@ public class JDBCPluginTest {
         con.commit();
         con.close();
         RequestSpanAssert.assertEquals(
-                new String[][] {{"0", "jdbc:mysql://127.0.0.1:3306/test?user=root&password=root(null)", "preaparedStatement.executeUpdate:select 1 from dual where 1=?"},
-                        {"0", "jdbc:mysql://127.0.0.1:3306/test?user=root&password=root(null)", "connection.commit"},
-                        {"0", "jdbc:mysql://127.0.0.1:3306/test?user=root&password=root(null)", "connection.close"},}, true);
+                new String[][] {{"0", "jdbc:mysql://127.0.0.1:3306/sample?user=root&password=root(null)", "preaparedStatement.executeUpdate:select 1 from dual where 1=?"},
+                        {"0", "jdbc:mysql://127.0.0.1:3306/sample?user=root&password=root(null)", "connection.commit"},
+                        {"0", "jdbc:mysql://127.0.0.1:3306/sample?user=root&password=root(null)", "connection.close"},}, true);
 
         RequestSpanAssert.clearTraceData();
     }

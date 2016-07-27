@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <classPathEntry location="/Users/xin/.m2/repository/com/h2database/h2/1.4.192/h2-1.4.192.jar" />
+
+  <context id="h2" targetRuntime="MyBatis3">
+    <jdbcConnection driverClass="org.h2.Driver"
+        connectionURL="jdbc:h2:file:/Users/xin/workbench/sky-walking/samples/skywalking-example/example-dubbo/dubbo-impl/src/main/db-file/sampledb"
+        userId="root"
+        password="root">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="test.model" targetProject="/Users/xin/workbench/sky-walking/samples/skywalking-example/example-dubbo/dubbo-impl/src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="test.xml"  targetProject="/Users/xin/workbench/sky-walking/samples/skywalking-example/example-dubbo/dubbo-impl/src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="test.dao"  targetProject="/Users/xin/workbench/sky-walking/samples/skywalking-example/example-dubbo/dubbo-impl/src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table schema="PUBLIC" tableName="SAMPLETABLE1" >
+    </table>
+
+  </context>
+</generatorConfiguration>

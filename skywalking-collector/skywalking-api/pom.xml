@@ -33,6 +33,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<version>1.4.15</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.ai.cloud</groupId>
 			<artifactId>skywalking-test-api</artifactId>
 			<version>1.0-Final</version>

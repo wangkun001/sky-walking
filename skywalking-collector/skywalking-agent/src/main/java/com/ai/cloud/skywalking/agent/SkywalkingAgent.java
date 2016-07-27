@@ -4,15 +4,11 @@ import com.ai.cloud.skywalking.agent.transformer.PluginsTransformer;
 import com.ai.cloud.skywalking.conf.AuthDesc;
 import com.ai.cloud.skywalking.conf.Config;
 import com.ai.cloud.skywalking.conf.ConfigInitializer;
-import com.ai.cloud.skywalking.plugin.IPlugin;
 import com.ai.cloud.skywalking.plugin.PluginBootstrap;
-import com.ai.cloud.skywalking.plugin.PluginCfg;
-import com.ai.cloud.skywalking.plugin.interceptor.AbstractClassEnhancePluginDefine;
 import com.ai.cloud.skywalking.plugin.interceptor.enhance.ClassEnhancePluginDefine;
 import com.ai.cloud.skywalking.transformer.ClassTransformer;
 
 import java.lang.instrument.Instrumentation;
-import java.util.List;
 import java.util.Map;
 
 public class SkywalkingAgent {

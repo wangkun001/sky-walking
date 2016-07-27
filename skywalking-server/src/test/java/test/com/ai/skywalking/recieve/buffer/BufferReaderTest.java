@@ -12,7 +12,7 @@ public class BufferReaderTest {
 
     @Before
     public void initData() throws IOException {
-        bufferFile = new File("/tmp", "test.aaaa");
+        bufferFile = new File("/tmp", "sample.aaaa");
         if (!bufferFile.exists()) {
             bufferFile.createNewFile();
         }

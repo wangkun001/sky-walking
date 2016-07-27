@@ -55,7 +55,7 @@ public class Config {
 
         public static String DRIVER_CLASS = "com.mysql.jdbc.Driver";
 
-        public static String URL = "jdbc:mysql://10.1.228.202:31316/test";
+        public static String URL = "jdbc:mysql://10.1.228.202:31316/sample";
 
         public static int MAX_IDLE = 1;
 

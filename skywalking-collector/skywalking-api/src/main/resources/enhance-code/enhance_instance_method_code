@@ -1,0 +1,30 @@
+{
+        com.ai.cloud.skywalking.logging.Logger _$SWLogger = com.ai.cloud.skywalking.logging.LogManager.getLogger(%interceptor_class%.class);
+        com.ai.cloud.skywalking.plugin.interceptor.enhance.InstanceMethodInvokeContext _$SWInterceptorContext = new com.ai.cloud.skywalking.plugin.interceptor.enhance.InstanceMethodInvokeContext($0, "%origin_method_name%", $args);
+        com.ai.cloud.skywalking.plugin.interceptor.enhance.MethodInterceptResult _$SWResult = new com.ai.cloud.skywalking.plugin.interceptor.enhance.MethodInterceptResult();
+        %interceptor_class% _$SWInterceptor =  new %interceptor_class%();
+        try {
+            _$SWInterceptor.beforeMethod($0._$EnhancedClassInstanceContext, _$SWInterceptorContext, _$SWResult);
+        } catch (Throwable t) {
+            _$SWLogger.error("class[{}] before method[{}] intercept failue:{}", new Object[] {$0.getClass(), "%origin_method_name%", t.getMessage()}, t);
+        }
+
+        try {
+            ret = %new_method_name%($$);
+        } catch (Throwable t) {
+            try {
+                _$SWInterceptor.handleMethodException(t, $0._$EnhancedClassInstanceContext, _$SWInterceptorContext, ret);
+            } catch (Throwable t2) {
+                _$SWLogger.error("class[{}] handle method[{}] exception failue:{}", new Object[] {$0.getClass(), "%origin_method_name%", t2.getMessage()}, t2);
+            }
+            throw t;
+        } finally {
+            try {
+                ret = _$SWInterceptor.afterMethod($0._$EnhancedClassInstanceContext, _$SWInterceptorContext, ret);
+            } catch (Throwable t) {
+                _$SWLogger.error("class[{}] after method[{}] intercept failue:{}", new Object[] {$0.getClass(), "%origin_method_name%", t.getMessage()}, t);
+            }
+        }
+        return ret;
+
+}

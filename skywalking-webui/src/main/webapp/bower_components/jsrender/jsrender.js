@@ -783,7 +783,7 @@ function compileTmpl(name, tmpl, parentTmpl, options) {
 					}
 				} else if ($.fn && !rTmplString.test(value)) {
 					try {
-						elem = $(document).find(value)[0]; // if jQuery is loaded, test for selector returning elements, and get first element
+						elem = $(document).find(value)[0]; // if jQuery is loaded, sample for selector returning elements, and get first element
 					} catch (e) {}
 				}// END BROWSER-SPECIFIC CODE
 			} //BROWSER-SPECIFIC CODE

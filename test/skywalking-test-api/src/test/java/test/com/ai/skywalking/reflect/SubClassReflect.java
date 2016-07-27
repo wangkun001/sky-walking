@@ -15,7 +15,7 @@ public class SubClassReflect {
     @Test
     public void fetchSubClassField() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        Class testSubClass = loader.loadClass("test.com.ai.skywalking.reflect.TestClass$TestSubClass");
+        Class testSubClass = loader.loadClass("sample.com.ai.skywalking.reflect.TestClass$TestSubClass");
         Field field = testSubClass.getDeclaredField("testStringArray");
         assertNotNull(field);
         field.setAccessible(true);

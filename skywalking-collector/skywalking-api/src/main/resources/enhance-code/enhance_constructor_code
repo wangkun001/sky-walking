@@ -1,0 +1,8 @@
+try {
+    com.ai.cloud.skywalking.plugin.interceptor.EnhancedClassInstanceContext _$classInstanceContext = new com.ai.cloud.skywalking.plugin.interceptor.EnhancedClassInstanceContext();
+    _$EnhancedClassInstanceContext = _$classInstanceContext;
+    com.ai.cloud.skywalking.plugin.interceptor.enhance.ConstructorInvokeContext _$InterceptorContext = new com.ai.cloud.skywalking.plugin.interceptor.enhance.ConstructorInvokeContext($0, $args);
+    new %interceptor_class%().onConstruct(_$classInstanceContext, _$InterceptorContext);
+} catch (Throwable t) {
+    com.ai.cloud.skywalking.logging.LogManager.getLogger(%interceptor_class%.class).error("ClassConstructorInterceptor failue.", t);
+}

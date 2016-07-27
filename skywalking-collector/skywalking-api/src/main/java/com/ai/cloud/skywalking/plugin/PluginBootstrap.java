@@ -47,7 +47,7 @@ public class PluginBootstrap {
                 logger.debug("prepare to enhance class by plugin {}.", pluginClassName);
                 IPlugin plugin = (IPlugin) Class.forName(pluginClassName).newInstance();
                 if (plugin instanceof ClassEnhancePluginDefine) {
-                    pluginDefineMap.put(pluginClassName, (ClassEnhancePluginDefine) plugin);
+                    pluginDefineMap.put(((ClassEnhancePluginDefine) plugin).enhanceClassName(), (ClassEnhancePluginDefine) plugin);
                 }
             } catch (Throwable t) {
                 logger.error("prepare to enhance class by plugin [{}] failure.", new Object[] {pluginClassName}, t);

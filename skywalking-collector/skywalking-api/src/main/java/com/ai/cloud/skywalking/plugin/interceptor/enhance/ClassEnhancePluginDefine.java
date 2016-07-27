@@ -1,28 +1,27 @@
 package com.ai.cloud.skywalking.plugin.interceptor.enhance;
 
-import com.ai.cloud.skywalking.logging.LogManager;
-import com.ai.cloud.skywalking.logging.Logger;
 import com.ai.cloud.skywalking.plugin.exception.PluginException;
-import com.ai.cloud.skywalking.plugin.interceptor.AbstractClassEnhancePluginDefine;
-import com.ai.cloud.skywalking.plugin.interceptor.EnhancedClassInstanceContext;
+import com.ai.cloud.skywalking.plugin.AbstractClassEnhancePluginDefine;
 import com.ai.cloud.skywalking.plugin.interceptor.MethodMatcher;
+import com.ai.cloud.skywalking.plugin.interceptor.enhance.exception.FailedLoadEnhanceCodeSegmentException;
 import javassist.*;
 
 import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class ClassEnhancePluginDefine extends AbstractClassEnhancePluginDefine {
-    private static Logger logger = LogManager.getLogger(ClassEnhancePluginDefine.class);
-
-    public static final String contextAttrName = "_$EnhancedClassInstanceContext";
 
     public byte[] enhance(CtClass ctClass) throws PluginException {
         try {
+            boolean isFirstEnhanceInstance = true;
             CtMethod[] ctMethod = ctClass.getDeclaredMethods();
             for (CtMethod method : ctMethod) {
                 if (Modifier.isStatic(method.getModifiers())) {
                     this.enhanceClass(ctClass, method);
                 } else {
-                    this.enhanceInstance(ctClass, method);
+                    this.enhanceInstance(ctClass, method, isFirstEnhanceInstance);
+                    isFirstEnhanceInstance = false;
                 }
             }
 
@@ -32,7 +31,7 @@ public abstract class ClassEnhancePluginDefine extends AbstractClassEnhancePlugi
         }
     }
 
-    private void enhanceClass(CtClass ctClass, CtMethod method) throws CannotCompileException, NotFoundException {
+    private void enhanceClass(CtClass ctClass, CtMethod method) throws CannotCompileException, NotFoundException, FailedLoadEnhanceCodeSegmentException {
         boolean isMatch = false;
         for (MethodMatcher methodMatcher : getStaticMethodsMatchers()) {
             if (methodMatcher.match(method)) {
@@ -44,34 +43,38 @@ public abstract class ClassEnhancePluginDefine extends AbstractClassEnhancePlugi
         if (isMatch) {
             // 修改方法名,
             String methodName = method.getName();
-            String newMethodName = methodName + "_$SkywalkingEnhance";
+            String newMethodName = methodName + "SkywalkingEnhance";
             method.setName(newMethodName);
 
             CtMethod newMethod = new CtMethod(method.getReturnType(), methodName, method.getParameterTypes(), method.getDeclaringClass());
-            newMethod.setBody(
-                    "{ new " + ClassStaticMethodsInterceptor.class.getName() + "(new " + getStaticMethodsInterceptor().getClass().getName() + ").intercept($class,$args,\""
-                            + methodName + "\"," + OriginCallCodeGenerator.generateStaticMethodOriginCallCode(ctClass.getName(), newMethodName) + ");}");
+
+            Map<String, String> parameters = new HashMap<String, String>();
+            parameters.put("interceptor_class", getStaticMethodsInterceptor().getClass().getName());
+            parameters.put("origin_method_name", methodName);
+            parameters.put("class_name", ctClass.getName());
+            parameters.put("new_method_name", newMethodName);
+
+            newMethod.setBody(CodeGenerator.generate("enhance_static_method_code", parameters));
 
             ctClass.addMethod(newMethod);
         }
 
     }
 
-    private void enhanceInstance(CtClass ctClass, CtMethod method) throws CannotCompileException, NotFoundException {
-        // 添加一个字段,并且带上get/set方法
-        CtField ctField = CtField.make("{public " + EnhancedClassInstanceContext.class.getName() + " " + contextAttrName + ";}", ctClass);
-        ctClass.addMethod(
-                CtMethod.make("public " + EnhancedClassInstanceContext.class.getName() + " get" + contextAttrName + "(){ return this." + contextAttrName + ";}", ctClass));
-        ctClass.addMethod(CtMethod.make(
-                "public void set" + contextAttrName + "(" + EnhancedClassInstanceContext.class.getName() + " " + contextAttrName + "){this." + contextAttrName + "="
-                        + contextAttrName + ";}", ctClass));
+    private void enhanceInstance(CtClass ctClass, CtMethod method, boolean isFirstEnhanceInstance)
+            throws CannotCompileException, NotFoundException, FailedLoadEnhanceCodeSegmentException {
+        if (isFirstEnhanceInstance) {
+            // 添加一个字段,并且带上get/set方法
+            CtField ctField = CtField.make(CodeGenerator.generate("add_instance_context_code"), ctClass);
+            ctClass.addField(ctField);
 
-
-        // 初始化构造函数
-        CtConstructor[] constructors = ctClass.getDeclaredConstructors();
-        for (CtConstructor constructor : constructors) {
-            constructor.insertAfter(" new " + ClassConstructorInterceptor.class.getName() + "(new " + getInstanceMethodsInterceptor().getClass().getName() + "()).intercept($0,$0."
-                    + contextAttrName + ",$args);");
+            // 初始化构造函数
+            CtConstructor[] constructors = ctClass.getDeclaredConstructors();
+            for (CtConstructor constructor : constructors) {
+                Map<String, String> parameter = new HashMap<String, String>();
+                parameter.put("interceptor_class", getInstanceMethodsInterceptor().getClass().getName());
+                constructor.insertAfter(CodeGenerator.generate("enhance_constructor_code", parameter));
+            }
         }
 
         boolean isMatch = false;
@@ -87,11 +90,15 @@ public abstract class ClassEnhancePluginDefine extends AbstractClassEnhancePlugi
             String methodName = method.getName();
             String newMethodName = methodName + "_$SkywalkingEnhance";
             method.setName(newMethodName);
-            CtMethod newMethod = new CtMethod(method.getReturnType(), methodName, method.getParameterTypes(), method.getDeclaringClass());
+            CtMethod newMethod = new CtMethod(method.getReturnType(), methodName, method.getParameterTypes(), ctClass);
+            newMethod.setExceptionTypes(method.getExceptionTypes());
 
-            newMethod.setBody(
-                    "{ new " + ClassInstanceMethodsInterceptor.class.getName() + "(new " + getInstanceMethodsInterceptor().getClass().getName() + "()).intercept($0,$args,\""
-                            + methodName + "\"," + OriginCallCodeGenerator.generateInstanceMethodOriginCallCode("$0", methodName) + ",$0." + contextAttrName + ");}");
+            Map<String, String> parameters = new HashMap<String, String>();
+            parameters.put("interceptor_class", getInstanceMethodsInterceptor().getClass().getName());
+            parameters.put("origin_method_name", methodName);
+            parameters.put("new_method_name", java.util.regex.Matcher.quoteReplacement(newMethodName));
+
+            newMethod.setBody(CodeGenerator.generate("enhance_instance_method_code", parameters));
 
             ctClass.addMethod(newMethod);
         }

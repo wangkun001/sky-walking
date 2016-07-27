@@ -1,7 +1,9 @@
 package test.com.ai.cloud.skywalking.plugin.tomcat78x;
 
 import com.ai.cloud.skywalking.plugin.TracingBootstrap;
+import com.ai.cloud.skywalking.plugin.exception.PluginException;
 import com.ai.skywalking.testframework.api.RequestSpanAssert;
+import javassist.NotFoundException;
 import org.apache.catalina.LifecycleException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,9 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 public class TomcatPluginTest {
 
     @Test
-    public void test() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, IllegalAccessException {
-        TracingBootstrap
-                .main(new String[]{TomcatPluginTest.class.getName()});
+    public void test() throws InvocationTargetException, NoSuchMethodException, ClassNotFoundException, IllegalAccessException, NotFoundException, PluginException {
+        TracingBootstrap.main(new String[] {TomcatPluginTest.class.getName()});
     }
 
     public static void main(String[] args) throws ServletException, LifecycleException, IOException, InterruptedException {
@@ -31,9 +32,7 @@ public class TomcatPluginTest {
         // curl httpclient
         visitURL("http://127.0.0.1:8080/hello");
         // assert client
-        RequestSpanAssert.assertEquals(new String[][]{
-                {"0", "http://127.0.0.1:8080/hello" , ""}
-        });
+        RequestSpanAssert.assertEquals(new String[][] {{"0", "http://127.0.0.1:8080/hello", ""}});
     }
 
     public static void visitURL(String url) throws IOException {
@@ -42,8 +41,7 @@ public class TomcatPluginTest {
             HttpGet httpget = new HttpGet(url);
             ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
                 @Override
-                public String handleResponse(
-                        final HttpResponse response) throws ClientProtocolException, IOException {
+                public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
                     int status = response.getStatusLine().getStatusCode();
                     if (status >= 200 && status < 300) {
                         HttpEntity entity = response.getEntity();

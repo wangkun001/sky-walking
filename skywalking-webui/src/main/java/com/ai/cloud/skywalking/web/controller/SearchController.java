@@ -132,12 +132,12 @@ public class SearchController extends BaseController {
         List<BreviaryChainTree> acronymousChainTreeWithGuessNodes = new ArrayList<BreviaryChainTree>();
         BreviaryChainTree chainTree = new BreviaryChainTree("test");
         chainTree.setEntranceViewpoint("test");
-        chainTree.setTreeId("test tree id");
+        chainTree.setTreeId("sample tree id");
         List<BreviaryChainNode> breviaryChainNodes = new ArrayList<>();
-        BreviaryChainNode breviaryChainNode = new BreviaryChainNode("0.0", "test view point id", true);
-        BreviaryChainNode breviaryChainNode1 = new BreviaryChainNode("0.0.0", "test view point id", true);
-        BreviaryChainNode breviaryChainNode2 = new BreviaryChainNode("0.1", "test view point id", true);
-        BreviaryChainNode breviaryChainNode3 = new BreviaryChainNode("0.2", "test view point id", true);
+        BreviaryChainNode breviaryChainNode = new BreviaryChainNode("0.0", "sample view point id", true);
+        BreviaryChainNode breviaryChainNode1 = new BreviaryChainNode("0.0.0", "sample view point id", true);
+        BreviaryChainNode breviaryChainNode2 = new BreviaryChainNode("0.1", "sample view point id", true);
+        BreviaryChainNode breviaryChainNode3 = new BreviaryChainNode("0.2", "sample view point id", true);
         breviaryChainNodes.add(breviaryChainNode);
         breviaryChainNodes.add(breviaryChainNode1);
         breviaryChainNodes.add(breviaryChainNode2);
