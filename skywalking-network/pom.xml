@@ -7,20 +7,34 @@
 
     <name>skywalking-protocol</name>
     <url>http://maven.apache.org</url>
-    <artifactId>skywalking-protocol</artifactId>
+    <artifactId>skywalking-network</artifactId>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <shade.com.google.protobuf.source>com.google.protobuf</shade.com.google.protobuf.source>
-        <shade.com.google.protobuf.target>com.a.eye.skywalking.protocol.dependencies.com.google.protobuf</shade.com.google.protobuf.target>
+        <shade.com.google.source>com.google</shade.com.google.source>
+        <shade.com.google.target>com.a.eye.skywalking.protocol.dependencies.com.google</shade.com.google.target>
+        <shade.io.netty.source>io.netty</shade.io.netty.source>
+        <shade.io.netty.target>com.a.eye.skywalking.protocol.dependencies.io.netty</shade.io.netty.target>
+        <shade.io.grpc.source>io.grpc</shade.io.grpc.source>
+        <shade.io.grpc.target>com.a.eye.skywalking.protocol.dependencies.io.grpc</shade.io.grpc.target>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.0.0</version>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -29,10 +43,16 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.4.1.Final</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -51,8 +71,16 @@
                             <shadeSourcesContent>true</shadeSourcesContent>
                             <relocations>
                                 <relocation>
-                                    <pattern>${shade.com.google.protobuf.source}</pattern>
-                                    <shadedPattern>${shade.com.google.protobuf.target}</shadedPattern>
+                                    <pattern>${shade.com.google.source}</pattern>
+                                    <shadedPattern>${shade.com.google.target}</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>${shade.io.netty.source}</pattern>
+                                    <shadedPattern>${shade.io.netty.target}</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>${shade.io.grpc.source}</pattern>
+                                    <shadedPattern>${shade.io.grpc.target}</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -101,37 +129,32 @@
                 </executions>
                 <version>2.4</version>
             </plugin>
-            <!--<plugin>-->
-            <!--<artifactId>maven-antrun-plugin</artifactId>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>compile-protoc</id>-->
-            <!--<phase>generate-sources</phase>-->
-            <!--<configuration>-->
-            <!--<tasks>-->
-            <!--<mkdir dir="src/main/gen-java" />-->
-            <!--<path id="proto.path">-->
-            <!--<fileset dir="src/main/proto">-->
-            <!--<include name="*.proto" />-->
-            <!--</fileset>-->
-            <!--</path>-->
-            <!--<pathconvert pathsep=" " property="proto.files"-->
-            <!--refid="proto.path" />-->
-
-            <!--<exec executable="protoc">-->
-            <!--<arg value="&#45;&#45;java_out=src/main/gen-java" />-->
-            <!--<arg value="-I${project.basedir}/src/main/proto" />-->
-            <!--<arg line="${proto.files}" />-->
-            <!--</exec>-->
-            <!--</tasks>-->
-            <!--<sourceRoot>src/main/gen-java</sourceRoot>-->
-            <!--</configuration>-->
-            <!--<goals>-->
-            <!--<goal>run</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <configuration>
+                    <!--
+                      The version of protoc must match protobuf-java. If you don't depend on
+                      protobuf-java directly, you will be transitively depending on the
+                      protobuf-java version that grpc depends on.
+                    -->
+                    <protocArtifact>com.google.protobuf:protoc:3.0.0:exe:${os.detected.classifier}</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.0.0:exe:${os.detected.classifier}</pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>
+                            <outputDirectory>${project.basedir}/src/main/gen-java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
