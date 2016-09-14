@@ -1,6 +1,6 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
-import com.a.eye.skywalking.protocol.common.NullableClass;
+import com.a.eye.skywalking.network.common.NullableClass;
 
 /**
  * Created by wusheng on 16/7/4.

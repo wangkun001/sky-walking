@@ -1,6 +1,4 @@
-package com.a.eye.skywalking.protocol.exception;
-
-import com.google.protobuf.InvalidProtocolBufferException;
+package com.a.eye.skywalking.network.exception;
 
 public class ConvertFailedException extends Exception {
 

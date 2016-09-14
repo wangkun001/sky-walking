@@ -1,4 +1,4 @@
-package com.a.eye.skywalking.protocol.exception;
+package com.a.eye.skywalking.network.exception;
 
 public class SpanTypeCannotConvertException extends RuntimeException {
     public SpanTypeCannotConvertException(String spanTypeValue) {

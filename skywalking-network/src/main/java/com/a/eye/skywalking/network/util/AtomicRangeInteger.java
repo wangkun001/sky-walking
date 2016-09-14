@@ -1,4 +1,4 @@
-package com.a.eye.skywalking.protocol.util;
+package com.a.eye.skywalking.network.util;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

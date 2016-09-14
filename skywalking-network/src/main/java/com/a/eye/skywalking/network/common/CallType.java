@@ -1,4 +1,4 @@
-package com.a.eye.skywalking.protocol.common;
+package com.a.eye.skywalking.network.common;
 
 public enum CallType {
 

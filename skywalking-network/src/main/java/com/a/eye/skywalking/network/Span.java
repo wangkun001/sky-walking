@@ -1,11 +1,9 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
-import com.a.eye.skywalking.protocol.common.SpanType;
+import com.a.eye.skywalking.network.common.SpanType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;

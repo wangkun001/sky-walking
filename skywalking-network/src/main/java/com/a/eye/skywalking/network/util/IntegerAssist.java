@@ -1,4 +1,4 @@
-package com.a.eye.skywalking.protocol.util;
+package com.a.eye.skywalking.network.util;
 
 /**
  * Created by wusheng on 16/7/4.

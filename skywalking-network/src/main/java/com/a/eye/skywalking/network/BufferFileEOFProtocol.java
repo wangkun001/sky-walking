@@ -1,7 +1,7 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
-import com.a.eye.skywalking.protocol.common.AbstractDataSerializable;
-import com.a.eye.skywalking.protocol.exception.ConvertFailedException;
+import com.a.eye.skywalking.network.common.AbstractDataSerializable;
+import com.a.eye.skywalking.network.exception.ConvertFailedException;
 
 public class BufferFileEOFProtocol extends AbstractDataSerializable {
     @Override

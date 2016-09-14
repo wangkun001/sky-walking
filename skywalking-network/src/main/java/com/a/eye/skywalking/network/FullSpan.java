@@ -1,4 +1,4 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
 public class FullSpan {
 

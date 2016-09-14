@@ -1,6 +1,6 @@
-package com.a.eye.skywalking.protocol.common;
+package com.a.eye.skywalking.network.common;
 
-import com.a.eye.skywalking.protocol.exception.ConvertFailedException;
+import com.a.eye.skywalking.network.exception.ConvertFailedException;
 
 /**
  * Created by wusheng on 16/7/4.

@@ -1,9 +1,9 @@
-package com.a.eye.skywalking.protocol.common;
+package com.a.eye.skywalking.network.common;
 
-import com.a.eye.skywalking.protocol.NullClass;
-import com.a.eye.skywalking.protocol.SerializedFactory;
-import com.a.eye.skywalking.protocol.exception.ConvertFailedException;
-import com.a.eye.skywalking.protocol.util.IntegerAssist;
+import com.a.eye.skywalking.network.NullClass;
+import com.a.eye.skywalking.network.SerializedFactory;
+import com.a.eye.skywalking.network.exception.ConvertFailedException;
+import com.a.eye.skywalking.network.util.IntegerAssist;
 
 import java.util.Arrays;
 

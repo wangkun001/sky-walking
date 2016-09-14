@@ -1,8 +1,8 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
-import com.a.eye.skywalking.protocol.common.AbstractDataSerializable;
-import com.a.eye.skywalking.protocol.exception.ConvertFailedException;
-import com.a.eye.skywalking.protocol.proto.TraceProtocol;
+import com.a.eye.skywalking.network.common.AbstractDataSerializable;
+import com.a.eye.skywalking.network.exception.ConvertFailedException;
+import com.a.eye.skywalking.network.proto.TraceProtocol;
 
 /**
  * Created by xin on 16/8/16.

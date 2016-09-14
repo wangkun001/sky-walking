@@ -1,4 +1,4 @@
-package com.a.eye.skywalking.protocol.exception;
+package com.a.eye.skywalking.network.exception;
 
 /**
  * Created by wusheng on 16/7/4.

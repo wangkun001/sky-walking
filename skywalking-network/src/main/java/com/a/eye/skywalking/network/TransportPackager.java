@@ -1,8 +1,8 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
-import com.a.eye.skywalking.protocol.util.ByteDataUtil;
-import com.a.eye.skywalking.protocol.util.IntegerAssist;
-import com.a.eye.skywalking.protocol.common.ISerializable;
+import com.a.eye.skywalking.network.util.ByteDataUtil;
+import com.a.eye.skywalking.network.util.IntegerAssist;
+import com.a.eye.skywalking.network.common.ISerializable;
 
 import java.util.Arrays;
 import java.util.List;

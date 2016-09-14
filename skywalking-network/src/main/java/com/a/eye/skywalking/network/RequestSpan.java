@@ -1,14 +1,11 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
-import com.a.eye.skywalking.protocol.common.CallType;
-import com.a.eye.skywalking.protocol.common.SpanType;
-import com.a.eye.skywalking.protocol.exception.ConvertFailedException;
-import com.a.eye.skywalking.protocol.common.AbstractDataSerializable;
-import com.a.eye.skywalking.protocol.proto.TraceProtocol;
+import com.a.eye.skywalking.network.common.CallType;
+import com.a.eye.skywalking.network.common.SpanType;
+import com.a.eye.skywalking.network.exception.ConvertFailedException;
+import com.a.eye.skywalking.network.common.AbstractDataSerializable;
+import com.a.eye.skywalking.network.proto.TraceProtocol;
 import com.google.protobuf.InvalidProtocolBufferException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by wusheng on 16/7/4.

@@ -1,12 +1,9 @@
-package com.a.eye.skywalking.protocol;
+package com.a.eye.skywalking.network;
 
-import com.a.eye.skywalking.protocol.exception.ConvertFailedException;
-import com.a.eye.skywalking.protocol.common.AbstractDataSerializable;
-import com.a.eye.skywalking.protocol.proto.TraceProtocol;
+import com.a.eye.skywalking.network.common.AbstractDataSerializable;
+import com.a.eye.skywalking.network.exception.ConvertFailedException;
+import com.a.eye.skywalking.network.proto.TraceProtocol;
 import com.google.protobuf.InvalidProtocolBufferException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by wusheng on 16/7/4.
@@ -124,10 +121,8 @@ public class AckSpan extends AbstractDataSerializable {
 
     @Override
     public byte[] getData() {
-        TraceProtocol.AckSpan.Builder
-                builder = TraceProtocol.AckSpan.newBuilder().setTraceId(traceId).setParentLevel(parentLevel).
-                setLevelId(levelId).setCost(cost).setViewpointId(viewPointId).setStatusCode(statusCode)
-                .setExceptionStack(exceptionStack);
+        TraceProtocol.AckSpan.Builder builder = TraceProtocol.AckSpan.newBuilder().setTraceId(traceId).setParentLevel(parentLevel).
+                setLevelId(levelId).setCost(cost).setViewpointId(viewPointId).setStatusCode(statusCode).setExceptionStack(exceptionStack);
         return builder.build().toByteArray();
     }
 
@@ -144,7 +139,7 @@ public class AckSpan extends AbstractDataSerializable {
             ackSpan.setStatusCode((byte) ackSpanProtocol.getStatusCode());
             ackSpan.viewPointId = ackSpanProtocol.getViewpointId();
         } catch (InvalidProtocolBufferException e) {
-            throw new ConvertFailedException(e.getMessage(),e);
+            throw new ConvertFailedException(e.getMessage(), e);
         }
 
         return ackSpan;

@@ -1,6 +1,6 @@
-package com.a.eye.skywalking.protocol.common;
+package com.a.eye.skywalking.network.common;
 
-import com.a.eye.skywalking.protocol.exception.SpanTypeCannotConvertException;
+import com.a.eye.skywalking.network.exception.SpanTypeCannotConvertException;
 
 /**
  * Created by xin on 16-7-2.

@@ -1,7 +1,7 @@
-package com.a.eye.skywalking.protocol.util;
+package com.a.eye.skywalking.network.util;
 
 
-import com.a.eye.skywalking.protocol.FullSpan;
+import com.a.eye.skywalking.network.FullSpan;
 
 import java.util.Comparator;
 
